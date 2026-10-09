@@ -37,10 +37,10 @@ export function MaskHeading({
   const MotionTag = motion[Tag as "h1"] as typeof motion.h1;
   const trigger = immediate ? { animate: "show" } : { whileInView: "show", viewport: { once: true, margin: "0px 0px -15% 0px" } };
   return (
-    <MotionTag id={id} className={className} initial={reduce ? false : "hidden"} {...trigger} transition={{ delayChildren: delay }}>
+    <MotionTag id={id} className={className} initial={reduce ? false : "hidden"} {...trigger} transition={{ delayChildren: reduce ? 0 : delay }}>
       {lines.map((line, i) => (
         <span key={i} className="block overflow-hidden pb-[0.12em] -mb-[0.12em]">
-          <motion.span className="block will-change-transform" variants={lineVariants} custom={i}>
+          <motion.span className="block will-change-transform" variants={lineVariants} custom={reduce ? 0 : i}>
             {line}
           </motion.span>
         </span>

@@ -24,7 +24,7 @@ export function PartnershipCTA() {
         <Reveal y={36}>
           <div className="glow-border relative px-6 py-16 text-center sm:px-16 sm:py-24">
             <MaskHeading id="cta-title" className="text-display mx-auto max-w-4xl" lines={["Have a Vision", <span key="b" className="italic text-lime">Worth Building?</span>]} />
-            <p className="mx-auto mt-8 max-w-xl text-lead text-muted">
+            <p className="mx-auto mt-8 max-w-xl text-lead text-soft">
               Let&apos;s explore how the right partnerships and opportunities can turn ambitious ideas into meaningful progress.
             </p>
             <div className="mt-11 flex flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center">

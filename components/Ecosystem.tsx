@@ -12,7 +12,7 @@ export function Ecosystem() {
           <div className="lg:col-span-8">
             <MaskHeading id="ecosystem-title" className="text-display" lines={["Big Brands.", <span key="b" className="italic text-lime">Bold Possibilities.</span>]} />
           </div>
-          <Reveal delay={0.15} className="max-w-md text-muted lg:col-span-4">
+          <Reveal delay={0.15} className="max-w-md text-soft lg:col-span-4">
             A growing ecosystem of franchise relationships, each added only once it is verified and confirmed.
           </Reveal>
         </div>
@@ -24,7 +24,7 @@ export function Ecosystem() {
           <Reveal delay={0.1}>
             <div className="flex flex-col gap-2 border border-dashed hairline p-7 sm:flex-row sm:items-center sm:justify-between">
               <p className="font-display text-2xl">More partnerships, soon.</p>
-              <p className="text-sm text-muted">Additional verified franchise relationships will appear here.</p>
+              <p className="text-sm text-soft">Additional verified franchise relationships will appear here.</p>
             </div>
           </Reveal>
         </div>

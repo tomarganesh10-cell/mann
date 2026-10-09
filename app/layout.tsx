@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "@fontsource-variable/fraunces/full.css";
 import "@fontsource-variable/inter";
 import "./globals.css";
+import { MotionProvider } from "@/components/MotionProvider";
 import { company, siteUrl } from "@/lib/site";
 
 const title = `${company.name} — ${company.headline}`;
@@ -35,7 +36,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <style>{`[style*="opacity: 0"],[style*="opacity:0"]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
       </head>
-      <body>{children}</body>
+      <body>
+        <MotionProvider>{children}</MotionProvider>
+      </body>
     </html>
   );
 }

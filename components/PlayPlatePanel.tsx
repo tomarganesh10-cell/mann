@@ -2,11 +2,14 @@
 
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
+import { useMemo } from "react";
 import type { FranchiseBrand } from "@/lib/franchise";
+import { generateTree } from "@/lib/tree";
 
 /** Feature panel for a verified franchise brand. Pointer-tilt applies only on fine pointers. */
 export function FeaturedBrandPanel({ brand }: { brand: FranchiseBrand }) {
   const reduce = useReducedMotion();
+  const tree = useMemo(() => generateTree({ x: 200, y: 392, length: 74, depth: 6, seed: 9, spread: 30 }), []);
   const px = useMotionValue(0.5), py = useMotionValue(0.5);
   const sx = useSpring(px, { stiffness: 80, damping: 20 }), sy = useSpring(py, { stiffness: 80, damping: 20 });
   const rotY = useTransform(sx, [0, 1], [-3, 3]);
@@ -31,7 +34,7 @@ export function FeaturedBrandPanel({ brand }: { brand: FranchiseBrand }) {
         className="group relative grid overflow-hidden border hairline bg-[linear-gradient(135deg,#0d2920,#071a14)] lg:grid-cols-12"
       >
         <motion.div aria-hidden className="pointer-events-none absolute inset-0" style={{ background: glow }} />
-        <svg aria-hidden viewBox="0 0 400 400" className="pointer-events-none absolute -right-10 top-0 h-full w-[70%] opacity-50 [mask-image:linear-gradient(to_left,black,transparent)]">
+        <svg aria-hidden viewBox="0 0 400 400" className="pointer-events-none absolute -right-10 top-0 h-full w-[70%] opacity-30 [mask-image:linear-gradient(to_left,black,transparent)]">
           {Array.from({ length: 9 }, (_, i) => (
             <motion.path key={i} d={`M-20 ${40 + i * 42} C 110 ${i * 30}, 210 ${120 + i * 36}, 420 ${20 + i * 44}`} fill="none" stroke={i % 3 ? "#C5A66A" : "#C4E879"} strokeOpacity=".35" strokeWidth=".8"
               initial={reduce ? false : { pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 2.4, delay: i * 0.12 }} />
@@ -41,9 +44,10 @@ export function FeaturedBrandPanel({ brand }: { brand: FranchiseBrand }) {
           ))}
         </svg>
 
-        <div className="relative z-10 p-7 sm:p-12 lg:col-span-8 lg:p-16">
+        <div className="relative z-10 p-7 sm:p-12 lg:col-span-7 lg:p-16">
           <p className="eyebrow">Featured · {brand.relationship}</p>
-          <h3 id={`${brand.id}-name`} className="mt-8 text-[clamp(3.2rem,2rem+8vw,9rem)] uppercase" style={{ fontWeight: 600, letterSpacing: "-0.03em" }}>
+          <div className="mt-8 [container-type:inline-size]">
+          <h3 id={`${brand.id}-name`} className="whitespace-nowrap text-[min(17.5cqw,9rem)] uppercase" style={{ fontWeight: 600, letterSpacing: "-0.03em" }}>
             {brand.logoSrc ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={brand.logoSrc} alt={brand.name} className="h-[1em] w-auto" />
@@ -51,8 +55,9 @@ export function FeaturedBrandPanel({ brand }: { brand: FranchiseBrand }) {
               <>PLAY<span className="text-lime">PLATE</span></>
             )}
           </h3>
+          </div>
           {brand.tagline && <p className="mt-6 font-display text-xl tracking-[0.3em] text-gold sm:text-2xl">{brand.tagline}</p>}
-          <p className="mt-8 max-w-xl text-lead leading-relaxed text-muted">{brand.description}</p>
+          <p className="mt-8 max-w-xl text-lead leading-relaxed text-soft">{brand.description}</p>
           <ul className="mt-8 flex flex-wrap gap-2" aria-label={`${brand.name} focus areas`}>
             {brand.tags.map((t) => (
               <li key={t} className="border hairline px-3.5 py-1.5 text-[0.7rem] uppercase tracking-[0.16em] text-ivory/85">{t}</li>
@@ -63,8 +68,19 @@ export function FeaturedBrandPanel({ brand }: { brand: FranchiseBrand }) {
             <span className="sr-only"> (opens in a new tab)</span>
           </a>
         </div>
-        <div aria-hidden className="relative hidden items-end justify-end p-12 lg:col-span-4 lg:flex">
-          <span className="font-display text-[11rem] leading-none text-ivory/[0.04]">&amp;</span>
+        <div aria-hidden className="relative hidden lg:col-span-5 lg:block">
+          <svg viewBox="0 0 400 420" className="absolute inset-0 h-full w-full" preserveAspectRatio="xMidYMid meet">
+            {[190, 140, 90].map((r, i) => (
+              <circle key={r} cx="200" cy="230" r={r} fill="none" stroke="#C5A66A" strokeOpacity={0.22 - i * 0.04} strokeDasharray="2 7" />
+            ))}
+            {tree.paths.map((p, i) => (
+              <motion.path key={i} d={p.d} fill="none" stroke={p.depth % 2 ? "#C5A66A" : "#C4E879"} strokeOpacity={0.75 - p.depth * 0.07} strokeWidth={Math.max(0.6, 2.2 - p.depth * 0.3)} strokeLinecap="round"
+                initial={reduce ? false : { pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1.5, delay: 0.3 + p.depth * 0.25, ease: "easeOut" }} />
+            ))}
+            {tree.nodes.filter((n) => n.depth >= 3).map((n, i) => (
+              <circle key={i} cx={n.x} cy={n.y} r="2.6" fill="#C4E879" className="node-pulse" style={{ animationDelay: `${(i % 8) * 0.5}s`, filter: "drop-shadow(0 0 6px rgba(196,232,121,.8))" }} />
+            ))}
+          </svg>
         </div>
       </motion.article>
     </div>

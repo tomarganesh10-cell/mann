@@ -16,7 +16,7 @@ function FooterTree() {
     generateTree({ x: 930, y: 520, length: 80, depth: 5, seed: 29 }),
   ], []);
   return (
-    <svg aria-hidden viewBox="0 0 1200 520" preserveAspectRatio="xMidYMax meet" className="pointer-events-none absolute inset-x-0 bottom-0 h-full w-full opacity-70">
+    <svg aria-hidden viewBox="0 0 1200 520" preserveAspectRatio="xMidYMax meet" className="pointer-events-none absolute inset-x-0 bottom-0 h-[92%] w-full opacity-60">
       {trees.map((t, ti) => (
         <g key={ti} opacity={ti === 0 ? 1 : 0.5}>
           {t.paths.map((p, i) => (
@@ -39,7 +39,7 @@ export function Footer() {
       <div className="relative mx-auto max-w-[88rem] px-5 pt-28 sm:px-8 sm:pt-40 lg:px-12">
         <p className="eyebrow mb-8 flex items-center gap-4"><span aria-hidden className="h-px w-10 bg-gold" />Kalpavriksha Private Limited</p>
         <MaskHeading as="h2" className="text-display max-w-4xl" lines={["Every Great Future", <span key="b" className="italic text-lime">Starts With a Seed.</span>]} />
-        <Reveal delay={0.1} className="mt-8 max-w-md text-lead text-muted">Building businesses, connecting opportunities, and creating impact.</Reveal>
+        <Reveal delay={0.1} className="mt-8 max-w-md text-lead text-soft">Building businesses, connecting opportunities, and creating impact.</Reveal>
 
         <div className="relative mt-24 grid gap-14 pb-10 sm:grid-cols-2 lg:grid-cols-12">
           <nav aria-label="Footer" className="lg:col-span-5">
@@ -65,9 +65,9 @@ export function Footer() {
       </div>
 
       {/* Signature wordmark over the branching network */}
-      <div className="relative mt-6 h-[clamp(14rem,34vw,30rem)] overflow-hidden" aria-hidden="true">
+      <div className="relative mt-10 h-[clamp(13rem,29vw,31rem)] overflow-hidden" aria-hidden="true">
         <FooterTree />
-        <div className="absolute inset-x-0 bottom-0 select-none text-center font-display uppercase leading-[0.78] text-ivory/[0.12]" style={{ fontSize: "clamp(2.1rem, 10.6vw, 12.5rem)", letterSpacing: "-0.04em", fontWeight: 400, whiteSpace: "nowrap" }}>
+        <div className="absolute inset-x-0 bottom-0 z-10 select-none text-center font-display uppercase leading-[0.8]" style={{ fontSize: "clamp(2rem, 14vw, 24rem)", letterSpacing: "-0.04em", fontWeight: 400, whiteSpace: "nowrap", color: "transparent", backgroundImage: "linear-gradient(180deg, rgba(244,240,230,0.5) 0%, rgba(244,240,230,0.16) 80%)", WebkitBackgroundClip: "text", backgroundClip: "text" }}>
           Kalpavriksha
         </div>
       </div>

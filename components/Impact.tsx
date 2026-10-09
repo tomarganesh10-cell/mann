@@ -16,6 +16,20 @@ export function Impact() {
   return (
     <section id="impact" aria-labelledby="impact-title" className="on-light relative overflow-hidden bg-ivory py-28 text-ink sm:py-40">
       <div className="mx-auto grid max-w-[88rem] gap-16 px-5 sm:px-8 lg:grid-cols-12 lg:items-center lg:px-12">
+        <div className="lg:col-span-6 lg:order-1">
+          <Reveal y={10}><p className="mb-8 flex items-center gap-4 text-[0.72rem] uppercase tracking-[0.28em] text-[#6b5a2f]"><span aria-hidden className="h-px w-10 bg-current" />Social Impact · Hope Commoners Foundation</p></Reveal>
+          <MaskHeading id="impact-title" className="text-display" lines={["A Better Future", <span key="b" className="italic text-[#2f5a45]">Is Built Together.</span>]} />
+          <Reveal delay={0.1} className="mt-10 max-w-xl space-y-5 text-lead leading-relaxed text-ink/80">
+            <p>Alongside business growth, we believe in creating opportunities for communities and supporting initiatives that make a meaningful difference.</p>
+            <p>Hope Commoners Foundation is described by the company as a nonprofit organization. Learn more about it on its official website.</p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <a href={externalLinks.foundation} target="_blank" rel="noopener noreferrer" className="btn btn-dark mt-12">
+              Visit Hope Commoners Foundation <ArrowUpRight className="arrow h-4 w-4" aria-hidden />
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </Reveal>
+        </div>
         <div className="lg:col-span-6 lg:order-2">
           <svg viewBox="0 0 600 600" className="mx-auto w-full max-w-[32rem]" role="img" aria-label="Abstract illustration of connected circles representing a community">
             {links.map(([a, b], i) => (
@@ -30,20 +44,6 @@ export function Impact() {
             <circle cx="300" cy="300" r="118" fill="none" stroke="#0d2920" strokeOpacity=".2" strokeDasharray="2 8" />
             <circle cx="300" cy="300" r="230" fill="none" stroke="#0d2920" strokeOpacity=".12" strokeDasharray="2 10" />
           </svg>
-        </div>
-        <div className="lg:col-span-6 lg:order-1">
-          <Reveal y={10}><p className="mb-8 flex items-center gap-4 text-[0.72rem] uppercase tracking-[0.28em] text-[#6b5a2f]"><span aria-hidden className="h-px w-10 bg-current" />Social Impact · Hope Commoners Foundation</p></Reveal>
-          <MaskHeading id="impact-title" className="text-display" lines={["A Better Future", <span key="b" className="italic text-[#2f5a45]">Is Built Together.</span>]} />
-          <Reveal delay={0.1} className="mt-10 max-w-xl space-y-5 text-lead leading-relaxed text-ink/80">
-            <p>Alongside business growth, we believe in creating opportunities for communities and supporting initiatives that make a meaningful difference.</p>
-            <p>Hope Commoners Foundation is described by the company as a nonprofit organization. Learn more about it on its official website.</p>
-          </Reveal>
-          <Reveal delay={0.2}>
-            <a href={externalLinks.foundation} target="_blank" rel="noopener noreferrer" className="btn btn-dark mt-12">
-              Visit Hope Commoners Foundation <ArrowUpRight className="arrow h-4 w-4" aria-hidden />
-              <span className="sr-only"> (opens in a new tab)</span>
-            </a>
-          </Reveal>
         </div>
       </div>
     </section>
