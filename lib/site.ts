@@ -26,18 +26,23 @@ export const externalLinks = {
   foundation: "https://hopecommonersfoundation.com",
 } as const;
 
-export const navLinks = [
+export const portfolioPath = "/franchise-portfolio";
+
+/** `route: true` entries are real pages; the rest are sections of the home page. */
+export const navLinks: readonly { label: string; href: string; id: string; route?: boolean }[] = [
   { label: "About", href: "#about", id: "about" },
   { label: "Ecosystem", href: "#ecosystem", id: "ecosystem" },
+  { label: "Franchise Portfolio", href: portfolioPath, id: "portfolio", route: true },
   { label: "Our Approach", href: "#approach", id: "approach" },
   { label: "Social Impact", href: "#impact", id: "impact" },
   { label: "Contact", href: "#contact", id: "contact" },
-] as const;
+];
 
 export const footerLinks = [
   { label: "Home", href: "/#home" },
   { label: "About", href: "/#about" },
   { label: "Franchise Ecosystem", href: "/#ecosystem" },
+  { label: "Franchise Portfolio", href: portfolioPath },
   { label: "Our Approach", href: "/#approach" },
   { label: "Social Impact", href: "/#impact" },
   { label: "Contact", href: "/#contact" },

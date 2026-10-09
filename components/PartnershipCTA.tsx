@@ -2,10 +2,18 @@
 
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { ArrowRight } from "lucide-react";
-import { useRef } from "react";
+import Link from "next/link";
+import { useRef, type ReactNode } from "react";
 import { MaskHeading, Reveal } from "./motion";
 
-export function PartnershipCTA() {
+type Cta = { label: string; href: string };
+
+export function PartnershipCTA({
+  lines = ["Have a Vision", <span key="b" className="italic text-lime">Worth Building?</span>],
+  body = "Let's explore how the right partnerships and opportunities can turn ambitious ideas into meaningful progress.",
+  primary = { label: "Discuss a Partnership", href: "#contact" },
+  secondary = { label: "Explore Our Ecosystem", href: "#ecosystem" },
+}: { lines?: readonly ReactNode[]; body?: string; primary?: Cta; secondary?: Cta | null } = {}) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
@@ -23,13 +31,13 @@ export function PartnershipCTA() {
       <div className="relative z-10 mx-auto max-w-[88rem] px-5 sm:px-8 lg:px-12">
         <Reveal y={36}>
           <div className="glow-border relative px-6 py-16 text-center sm:px-16 sm:py-24">
-            <MaskHeading id="cta-title" className="text-display mx-auto max-w-4xl" lines={["Have a Vision", <span key="b" className="italic text-lime">Worth Building?</span>]} />
+            <MaskHeading id="cta-title" className="text-display mx-auto max-w-4xl" lines={lines} />
             <p className="mx-auto mt-8 max-w-xl text-lead text-soft">
-              Let&apos;s explore how the right partnerships and opportunities can turn ambitious ideas into meaningful progress.
+              {body}
             </p>
             <div className="mt-11 flex flex-col items-stretch justify-center gap-4 sm:flex-row sm:items-center">
-              <a href="#contact" className="btn btn-primary">Discuss a Partnership <ArrowRight className="arrow h-4 w-4" aria-hidden /></a>
-              <a href="#ecosystem" className="btn btn-ghost">Explore Our Ecosystem</a>
+              <Link href={primary.href} className="btn btn-primary">{primary.label} <ArrowRight className="arrow h-4 w-4" aria-hidden /></Link>
+              {secondary && <Link href={secondary.href} className="btn btn-ghost">{secondary.label}</Link>}
             </div>
           </div>
         </Reveal>

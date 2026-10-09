@@ -7,7 +7,7 @@ import type { FranchiseBrand } from "@/lib/franchise";
 import { generateTree } from "@/lib/tree";
 
 /** Feature panel for a verified franchise brand. Pointer-tilt applies only on fine pointers. */
-export function FeaturedBrandPanel({ brand }: { brand: FranchiseBrand }) {
+export function FeaturedBrandPanel({ brand, rank }: { brand: FranchiseBrand; rank?: string }) {
   const reduce = useReducedMotion();
   const tree = useMemo(() => generateTree({ x: 200, y: 392, length: 74, depth: 6, seed: 9, spread: 30 }), []);
   const px = useMotionValue(0.5), py = useMotionValue(0.5);
@@ -45,7 +45,7 @@ export function FeaturedBrandPanel({ brand }: { brand: FranchiseBrand }) {
         </svg>
 
         <div className="relative z-10 p-7 sm:p-12 lg:col-span-7 lg:p-16">
-          <p className="eyebrow">Featured · {brand.relationship}</p>
+          <p className="eyebrow flex items-center gap-4">{rank && <span className="font-display text-2xl normal-case tracking-normal text-lime">{rank}</span>}Featured · {brand.relationship}</p>
           <div className="mt-8 [container-type:inline-size]">
           <h3 id={`${brand.id}-name`} className="whitespace-nowrap text-[min(17.5cqw,9rem)] uppercase" style={{ fontWeight: 600, letterSpacing: "-0.03em" }}>
             {brand.logoSrc ? (
