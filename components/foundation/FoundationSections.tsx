@@ -125,10 +125,14 @@ export function FocusAreas() {
           {focusAreas.map((f, i) => (
             <li key={f.id} className="h-full">
               <Reveal delay={i * 0.12} className="h-full">
-                <article className={`flex h-full flex-col p-8 ${tint[f.id]}`}>
+                <article className={`group flex h-full flex-col p-8 transition-[transform,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_24px_50px_-28px_rgba(13,41,32,0.5)] focus-within:-translate-y-1 focus-within:shadow-[0_24px_50px_-28px_rgba(13,41,32,0.5)] focus-within:ring-2 focus-within:ring-[#2f5a45] motion-reduce:hover:translate-y-0 motion-reduce:focus-within:translate-y-0 ${tint[f.id]}`}>
                   <div className="flex items-start justify-between"><FocusIcon id={f.id} /><span className="font-display text-3xl text-[#7a5326]" style={{ fontWeight: 300 }}>{f.no}</span></div>
                   <h3 className="mt-10 text-3xl text-ink" style={{ fontWeight: 400 }}>{f.title}</h3>
                   <p className="mt-4 text-ink/80">{f.body}</p>
+                  <a href={foundationUrl} {...ext} className="mt-8 inline-flex min-h-11 items-center gap-2 self-start text-[0.74rem] font-medium uppercase tracking-[0.16em] text-[#2f5a45] underline decoration-[#2f5a45]/40 underline-offset-[6px] transition-colors hover:decoration-[#2f5a45]">
+                    On the official website <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden />
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
                 </article>
               </Reveal>
             </li>
@@ -156,7 +160,7 @@ export function GetInvolved() {
           {actions.map((a, i) => (
             <li key={a.label} className="h-full">
               <Reveal delay={i * 0.1} className="h-full">
-                <a href={a.href} {...ext} className="group flex h-full min-h-48 flex-col justify-between border border-ink/15 bg-white/50 p-7 transition-[border-color,background-color,transform] duration-500 hover:-translate-y-1 hover:border-[#2f5a45] hover:bg-white motion-reduce:transform-none">
+                <a href={a.href} {...ext} className="group flex h-full min-h-48 flex-col justify-between border border-ink/15 bg-white/50 p-7 transition-[border-color,background-color,transform] duration-500 hover:-translate-y-1 hover:border-[#2f5a45] hover:bg-white focus-visible:-translate-y-1 focus-visible:border-[#2f5a45] focus-visible:bg-white motion-reduce:hover:translate-y-0 motion-reduce:focus-visible:translate-y-0">
                   <span className="font-display text-3xl leading-tight text-ink" style={{ fontWeight: 400 }}>{a.label}</span>
                   <span className="mt-8 flex items-end justify-between gap-4 text-sm text-ink/75"><span className="min-w-0 [overflow-wrap:anywhere]">{a.note}</span><ArrowUpRight className="h-5 w-5 shrink-0 text-[#2f5a45] transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden /></span>
                   <span className="sr-only">(opens in a new tab){a.sr}</span>

@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import type { BestFranchise, BestFranchiseTheme } from "@/lib/best-franchises";
 
@@ -6,7 +9,7 @@ import type { BestFranchise, BestFranchiseTheme } from "@/lib/best-franchises";
  * Per-brand visual languages. Each brand keeps its own palette (purple / red-blue-white / green-yellow);
  * the logo panel background matches the logo file's own background so the artwork is never framed, cropped or recolored.
  */
-const themes: Record<BestFranchiseTheme, { card: string; panel: string; rank: string; name: string; text: string; muted: string; chip: string; rule: string; cta: string; glow: string }> = {
+const themes: Record<BestFranchiseTheme, { card: string; panel: string; rank: string; name: string; text: string; muted: string; chip: string; rule: string; cta: string; glow: string; ring: string; spot: string }> = {
   playplate: {
     card: "bg-[linear-gradient(180deg,#0a0320_0%,#1b0b45_100%)] border-[#7c3aed]/40 hover:border-[#a78bfa] hover:shadow-[0_30px_80px_-24px_rgba(124,58,237,0.65)]",
     panel: "bg-[#03010c]",
@@ -18,6 +21,8 @@ const themes: Record<BestFranchiseTheme, { card: string; panel: string; rank: st
     rule: "border-[#7c3aed]/35",
     cta: "bg-[#7c3aed] text-white border-[#7c3aed] hover:bg-[#8b5cf6] hover:border-[#c4b5fd] focus-visible:outline-[#c4b5fd]",
     glow: "bg-[radial-gradient(60%_50%_at_50%_0%,rgba(139,92,246,0.35),transparent_70%)]",
+    ring: "focus-within:ring-2 focus-within:ring-[#c4b5fd] focus-within:ring-offset-2 focus-within:ring-offset-[#0d2920]",
+    spot: "rgba(139,92,246,0.30)",
   },
   dominos: {
     card: "bg-white border-[#0b2a3f]/10 hover:border-[#007bad] hover:shadow-[0_30px_70px_-26px_rgba(0,123,173,0.55)]",
@@ -30,6 +35,8 @@ const themes: Record<BestFranchiseTheme, { card: string; panel: string; rank: st
     rule: "border-[#0b2a3f]/12",
     cta: "bg-[#007bad] text-white border-[#007bad] hover:bg-[#0b2a3f] hover:border-[#0b2a3f] focus-visible:outline-[#d9222e]",
     glow: "bg-[radial-gradient(60%_50%_at_50%_0%,rgba(217,34,46,0.08),transparent_70%)]",
+    ring: "focus-within:ring-2 focus-within:ring-[#007bad] focus-within:ring-offset-2 focus-within:ring-offset-[#0d2920]",
+    spot: "rgba(0,123,173,0.10)",
   },
   subway: {
     card: "bg-[#006b30] border-[#f2b701]/30 hover:border-[#f2b701] hover:shadow-[0_30px_70px_-26px_rgba(242,183,1,0.45)]",
@@ -42,17 +49,36 @@ const themes: Record<BestFranchiseTheme, { card: string; panel: string; rank: st
     rule: "border-white/25",
     cta: "bg-[#f2b701] text-[#063b1b] border-[#f2b701] hover:bg-white hover:border-white focus-visible:outline-white",
     glow: "bg-[radial-gradient(60%_50%_at_50%_0%,rgba(242,183,1,0.16),transparent_70%)]",
+    ring: "focus-within:ring-2 focus-within:ring-[#f2b701] focus-within:ring-offset-2 focus-within:ring-offset-[#0d2920]",
+    spot: "rgba(242,183,1,0.20)",
   },
 };
 
 export function BestFranchiseCard({ brand }: { brand: BestFranchise }) {
   const t = themes[brand.id];
+  const ref = useRef<HTMLElement>(null);
+  /** Pointer-follow spotlight: mouse only, hidden entirely when reduced motion is requested. */
+  const onMove = (e: React.PointerEvent<HTMLElement>) => {
+    if (e.pointerType !== "mouse" || !ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    ref.current.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    ref.current.style.setProperty("--my", `${e.clientY - r.top}px`);
+  };
   return (
     <article
+      ref={ref}
+      onPointerMove={onMove}
+      // Mouse convenience: the whole card opens the brand site. Keyboard and screen-reader users use the CTA link.
+      onClick={(e) => {
+        if ((e.target as HTMLElement).closest("a")) return;
+        window.open(brand.url, "_blank", "noopener,noreferrer");
+      }}
       aria-labelledby={`${brand.id}-title`}
-      className={`group relative flex h-full flex-col overflow-hidden border transition-[transform,box-shadow,border-color] duration-500 hover:-translate-y-1.5 focus-within:-translate-y-1.5 motion-reduce:transform-none motion-reduce:transition-none ${t.card}`}
+      className={`group relative flex h-full cursor-pointer flex-col overflow-hidden border transition-[transform,box-shadow,border-color] duration-500 hover:-translate-y-1.5 focus-within:-translate-y-1.5 motion-reduce:hover:translate-y-0 motion-reduce:focus-within:translate-y-0 motion-reduce:transition-none ${t.ring} ${t.card}`}
     >
       <span aria-hidden className={`pointer-events-none absolute inset-0 opacity-70 transition-opacity duration-500 group-hover:opacity-100 ${t.glow}`} />
+
+      <span aria-hidden className="pointer-events-none absolute inset-0 z-[1] opacity-0 transition-opacity duration-500 group-hover:opacity-100 motion-reduce:hidden" style={{ background: `radial-gradient(260px circle at var(--mx, 50%) var(--my, 25%), ${t.spot}, transparent 70%)` }} />
 
       {/* Logo panel: fixed 3:2 frame, logo contained (never cropped or stretched) */}
       <div className={`relative aspect-[3/2] w-full ${t.panel}`}>
@@ -62,7 +88,7 @@ export function BestFranchiseCard({ brand }: { brand: BestFranchise }) {
           fill
           unoptimized
           sizes="(min-width: 1024px) 30vw, (min-width: 640px) 600px, 100vw"
-          className={`object-contain transition-transform duration-700 group-hover:scale-[1.03] motion-reduce:transform-none ${brand.id === "dominos" ? "p-4" : ""}`}
+          className={`object-contain transition-transform duration-700 group-hover:scale-[1.03] motion-reduce:group-hover:scale-100 ${brand.id === "dominos" ? "p-4" : ""}`}
           priority={brand.id === "playplate"}
         />
       </div>

@@ -9,7 +9,7 @@ export function BrandCard({ brand, rank }: { brand: PortfolioBrand; rank?: strin
   return (
     <article
       aria-labelledby={`${brand.id}-name`}
-      className="group relative flex h-full flex-col overflow-hidden border hairline bg-forest p-7 transition-[border-color,transform,background-color] duration-500 hover:-translate-y-1 hover:border-gold/60 hover:bg-forest-2 focus-within:border-gold/60 motion-reduce:transform-none sm:p-8"
+      className="group relative flex h-full flex-col overflow-hidden border hairline bg-forest p-7 transition-[border-color,transform,background-color] duration-500 hover:-translate-y-1 hover:border-gold/60 hover:bg-forest-2 focus-within:border-gold/60 motion-reduce:hover:translate-y-0 motion-reduce:focus-within:translate-y-0 sm:p-8"
     >
       {/* hover accent: a fine line draws across the top edge */}
       <span aria-hidden className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-gradient-to-r from-gold to-lime transition-transform duration-700 group-hover:scale-x-100 group-focus-within:scale-x-100 motion-reduce:transition-none" />
