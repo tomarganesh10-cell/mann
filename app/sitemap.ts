@@ -7,5 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${siteUrl}/`, changeFrequency: "monthly", priority: 1 },
     { url: `${siteUrl}/franchise-portfolio`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${siteUrl}/our-best-franchises`, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${siteUrl}/hope-commoners-foundation`, changeFrequency: "monthly", priority: 0.8 },
   ];
 }

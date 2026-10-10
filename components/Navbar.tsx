@@ -1,12 +1,71 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { navLinks } from "@/lib/site";
+import { foundationPath, navItems, navLinks, type NavLeaf } from "@/lib/site";
 import { Wordmark } from "./Logo";
+
+const linkClass = "group relative whitespace-nowrap py-2 text-[0.68rem] uppercase tracking-[0.12em] text-muted transition-colors hover:text-ivory aria-[current=page]:text-ivory aria-[current=true]:text-ivory min-[1400px]:text-[0.78rem] min-[1400px]:tracking-[0.18em]";
+const underline = "absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-lime transition-transform duration-500 group-hover:scale-x-100 group-aria-[current=page]:scale-x-100 group-aria-[current=true]:scale-x-100";
+
+/** Desktop dropdown: disclosure button + list of links. Opens on click, pointer hover or focus; Escape closes. */
+function NavDropdown({
+  label, id, items, hrefFor, currentId, isOpen, onOpenChange,
+}: {
+  label: string; id: string; items: readonly NavLeaf[]; hrefFor: (l: NavLeaf) => string;
+  currentId: string | undefined; isOpen: boolean; onOpenChange: (open: boolean) => void;
+}) {
+  const wrapRef = useRef<HTMLLIElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const groupActive = items.some((l) => l.id === currentId);
+  return (
+    <li
+      ref={wrapRef}
+      className="relative"
+      onPointerEnter={(e) => e.pointerType === "mouse" && onOpenChange(true)}
+      onPointerLeave={(e) => e.pointerType === "mouse" && onOpenChange(false)}
+      onBlur={(e) => { if (!wrapRef.current?.contains(e.relatedTarget as Node | null)) onOpenChange(false); }}
+      onKeyDown={(e) => { if (e.key === "Escape" && isOpen) { e.stopPropagation(); onOpenChange(false); buttonRef.current?.focus(); } }}
+    >
+      <button
+        ref={buttonRef}
+        type="button"
+        aria-expanded={isOpen}
+        aria-controls={`menu-${id}`}
+        aria-current={groupActive ? "true" : undefined}
+        onClick={() => onOpenChange(!isOpen)}
+        className={`${linkClass} flex items-center gap-1.5`}
+      >
+        {label}
+        <ChevronDown aria-hidden className={`h-3 w-3 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+        <span aria-hidden className={underline} />
+      </button>
+      {isOpen && (
+        <ul id={`menu-${id}`} className="absolute left-1/2 top-full z-10 w-max min-w-[15rem] -translate-x-1/2 pt-3">
+          <li className="border hairline bg-forest/97 p-2 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)] backdrop-blur-md">
+            <ul>
+              {items.map((l) => (
+                <li key={l.id}>
+                  <Link
+                    href={hrefFor(l)}
+                    onClick={() => onOpenChange(false)}
+                    aria-current={currentId === l.id ? (l.route ? "page" : "true") : undefined}
+                    className="flex min-h-11 items-center px-4 text-[0.74rem] uppercase tracking-[0.14em] text-muted transition-colors hover:bg-ivory/[0.05] hover:text-ivory aria-[current=page]:text-lime aria-[current=true]:text-lime"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </li>
+        </ul>
+      )}
+    </li>
+  );
+}
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -18,8 +77,11 @@ export function Navbar() {
   const pathname = usePathname();
   const onHome = pathname === "/";
   /** Section links point at the home page when the visitor is on another route. */
-  const hrefFor = (l: (typeof navLinks)[number]) => (l.route || onHome ? l.href : `/${l.href}`);
+  const hrefFor = (l: NavLeaf) => (l.route || onHome ? l.href : `/${l.href}`);
   const current = onHome ? active : navLinks.find((l) => l.route && pathname.startsWith(l.href))?.id;
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  /** Pages with a light hero need the solid header from the first pixel. */
+  const solidRoute = pathname.startsWith(foundationPath);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -68,20 +130,34 @@ export function Navbar() {
   }, [open, close]);
 
   return (
-    <header className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${scrolled || open ? "border-b hairline bg-forest/92 backdrop-blur-md" : "bg-transparent"}`}>
+    <>
+    <header className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${scrolled || open || solidRoute ? "border-b hairline bg-forest/92 backdrop-blur-md" : "bg-transparent"}`}>
       <nav aria-label="Primary" className="mx-auto flex h-[4.5rem] max-w-[88rem] items-center justify-between px-5 sm:px-8 lg:px-12">
         <Link href={onHome ? "#home" : "/"} aria-label="Kalpavriksha, home" className="text-ivory"><Wordmark /></Link>
 
         <ul className="hidden items-center gap-5 lg:flex min-[1400px]:gap-9">
-          {navLinks.map((l) => (
-            <li key={l.id}>
-              <Link href={hrefFor(l)} aria-current={current === l.id ? (l.route ? "page" : "true") : undefined} className="group relative whitespace-nowrap py-2 text-[0.68rem] uppercase tracking-[0.12em] text-muted transition-colors hover:text-ivory aria-[current=page]:text-ivory aria-[current=true]:text-ivory min-[1400px]:text-[0.78rem] min-[1400px]:tracking-[0.18em]">
-                {l.id === "portfolio" ? <><span className="min-[1400px]:hidden">Portfolio</span><span className="hidden min-[1400px]:inline">{l.label}</span></> : l.label}
-                <span aria-hidden className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-lime transition-transform duration-500 group-hover:scale-x-100 group-aria-[current=page]:scale-x-100 group-aria-[current=true]:scale-x-100" />
-              </Link>
-            </li>
-          ))}
-          <li className="hidden min-[1100px]:block"><Link href={onHome ? "#contact" : "/#contact"} className="btn btn-primary !min-h-11 !whitespace-nowrap !px-4 !text-[0.68rem] min-[1400px]:!px-5 min-[1400px]:!text-[0.72rem]">Partner With Us <ArrowUpRight className="h-3.5 w-3.5" aria-hidden /></Link></li>
+          {navItems.map((item) =>
+            "children" in item ? (
+              <NavDropdown
+                key={item.id}
+                id={item.id}
+                label={item.label}
+                items={item.children}
+                hrefFor={hrefFor}
+                currentId={current}
+                isOpen={openGroup === item.id}
+                onOpenChange={(o) => setOpenGroup((g) => (o ? item.id : g === item.id ? null : g))}
+              />
+            ) : (
+              <li key={item.id}>
+                <Link href={hrefFor(item)} aria-current={current === item.id ? (item.route ? "page" : "true") : undefined} className={linkClass}>
+                  {item.label}
+                  <span aria-hidden className={underline} />
+                </Link>
+              </li>
+            ),
+          )}
+          <li><Link href={onHome ? "#contact" : "/#contact"} className="btn btn-primary !min-h-11 !whitespace-nowrap !px-4 !text-[0.68rem] min-[1400px]:!px-5 min-[1400px]:!text-[0.72rem]">Partner With Us <ArrowUpRight className="h-3.5 w-3.5" aria-hidden /></Link></li>
         </ul>
 
         <button
@@ -97,33 +173,35 @@ export function Navbar() {
         </button>
       </nav>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            id="mobile-menu"
-            ref={panelRef}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Site menu"
-            className="fixed inset-x-0 bottom-0 top-[4.5rem] overflow-y-auto bg-forest px-5 pb-10 pt-8 sm:px-8 lg:hidden"
-            initial={reduce ? false : { opacity: 0, y: -16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -16 }}
-            transition={{ duration: 0.35 }}
-          >
-            <ul className="flex flex-col">
-              {navLinks.map((l, i) => (
-                <motion.li key={l.id} className="border-b hairline" initial={reduce ? false : { opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.08 + i * 0.06 }}>
-                  <Link href={hrefFor(l)} onClick={() => setOpen(false)} className="font-display flex min-h-16 items-center justify-between text-3xl text-ivory">
-                    {l.label}<span className="text-xs text-gold" aria-hidden>0{i + 1}</span>
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-            <Link href={onHome ? "#contact" : "/#contact"} onClick={() => setOpen(false)} className="btn btn-primary mt-10 w-full">Partner With Us</Link>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </header>
+
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          id="mobile-menu"
+          ref={panelRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site menu"
+          className="fixed inset-x-0 bottom-0 top-[4.5rem] z-40 overflow-y-auto bg-forest px-5 pb-10 pt-8 sm:px-8 lg:hidden"
+          initial={reduce ? false : { opacity: 0, y: -16 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={reduce ? { opacity: 0 } : { opacity: 0, y: -16 }}
+          transition={{ duration: 0.35 }}
+        >
+          <ul className="flex flex-col">
+            {navLinks.map((l, i) => (
+              <motion.li key={l.id} className="border-b hairline" initial={reduce ? false : { opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.08 + i * 0.06 }}>
+                <Link href={hrefFor(l)} onClick={() => setOpen(false)} className="font-display flex min-h-16 items-center justify-between text-3xl text-ivory">
+                  {l.label}<span className="text-xs text-gold" aria-hidden>0{i + 1}</span>
+                </Link>
+              </motion.li>
+            ))}
+          </ul>
+          <Link href={onHome ? "#contact" : "/#contact"} onClick={() => setOpen(false)} className="btn btn-primary mt-10 w-full">Partner With Us</Link>
+        </motion.div>
+      )}
+    </AnimatePresence>
+    </>
   );
 }

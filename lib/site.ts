@@ -27,24 +27,48 @@ export const externalLinks = {
 } as const;
 
 export const portfolioPath = "/franchise-portfolio";
+export const bestFranchisesPath = "/our-best-franchises";
+export const foundationPath = "/hope-commoners-foundation";
 
-/** `route: true` entries are real pages; the rest are sections of the home page. */
-export const navLinks: readonly { label: string; href: string; id: string; route?: boolean }[] = [
+export type NavLeaf = { label: string; href: string; id: string; route?: boolean };
+export type NavItem = NavLeaf | { label: string; id: string; children: readonly NavLeaf[] };
+
+/** `route: true` entries are real pages; the rest are sections of the home page. Groups render as dropdowns on desktop. */
+export const navItems: readonly NavItem[] = [
   { label: "About", href: "#about", id: "about" },
-  { label: "Ecosystem", href: "#ecosystem", id: "ecosystem" },
-  { label: "Franchise Portfolio", href: portfolioPath, id: "portfolio", route: true },
+  {
+    label: "Franchises",
+    id: "franchises",
+    children: [
+      { label: "Ecosystem", href: "#ecosystem", id: "ecosystem" },
+      { label: "Franchise Portfolio", href: portfolioPath, id: "portfolio", route: true },
+      { label: "Our Best Franchises", href: bestFranchisesPath, id: "best-franchises", route: true },
+    ],
+  },
   { label: "Our Approach", href: "#approach", id: "approach" },
-  { label: "Social Impact", href: "#impact", id: "impact" },
+  {
+    label: "Social Impact",
+    id: "social-impact",
+    children: [
+      { label: "Social Impact", href: "#impact", id: "impact" },
+      { label: "Hope Commoners Foundation", href: foundationPath, id: "foundation", route: true },
+    ],
+  },
   { label: "Contact", href: "#contact", id: "contact" },
 ];
+
+/** Flat list (mobile menu and section observer). */
+export const navLinks: readonly NavLeaf[] = navItems.flatMap((i) => ("children" in i ? i.children : [i]));
 
 export const footerLinks = [
   { label: "Home", href: "/#home" },
   { label: "About", href: "/#about" },
   { label: "Franchise Ecosystem", href: "/#ecosystem" },
   { label: "Franchise Portfolio", href: portfolioPath },
+  { label: "Our Best Franchises", href: bestFranchisesPath },
   { label: "Our Approach", href: "/#approach" },
   { label: "Social Impact", href: "/#impact" },
+  { label: "Hope Commoners Foundation", href: foundationPath },
   { label: "Contact", href: "/#contact" },
 ] as const;
 

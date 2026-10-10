@@ -129,3 +129,8 @@ select.field option { background: var(--color-forest-2); color: var(--color-ivor
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Outline button for light (ivory) sections */
+.btn-outline-dark { color: var(--color-forest-2); border-color: color-mix(in srgb, var(--color-forest-2) 55%, transparent); }
+.btn-outline-dark::before { background: var(--color-forest-2); }
+.btn-outline-dark:hover, .btn-outline-dark:focus-visible { color: var(--color-ivory); border-color: var(--color-forest-2); }
