@@ -9,7 +9,7 @@ export default function Page() {
       <Link href="/" className="eyebrow">← Back to home</Link>
       <h1 className="mt-8 text-5xl">Terms and Conditions</h1>
       <p className="mt-8 border border-gold/50 p-5 text-muted">
-        <strong className="text-ivory">Draft placeholder.</strong> The Terms and Conditions for Kalpavriksha Private Limited has not yet been supplied or reviewed by legal counsel. This page reserves the route; replace this notice with the approved text before launch.
+        <strong className="text-ivory">Draft placeholder.</strong> The Terms and Conditions for Kalpavriksha Collective Pvt Ltd has not yet been supplied or reviewed by legal counsel. This page reserves the route; replace this notice with the approved text before launch.
       </p>
     </main>
   );

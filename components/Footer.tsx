@@ -37,7 +37,7 @@ export function Footer() {
   return (
     <footer className="grain relative overflow-hidden bg-[#04110c] text-ivory">
       <div className="relative mx-auto max-w-[88rem] px-5 pt-28 sm:px-8 sm:pt-40 lg:px-12">
-        <p className="eyebrow mb-8 flex items-center gap-4"><span aria-hidden className="h-px w-10 bg-gold" />Kalpavriksha Private Limited</p>
+        <p className="eyebrow mb-8 flex items-center gap-4"><span aria-hidden className="h-px w-10 bg-gold" />Kalpavriksha Collective Pvt Ltd</p>
         <MaskHeading as="h2" className="text-display max-w-4xl" lines={["Every Great Future", <span key="b" className="italic text-lime">Starts With a Seed.</span>]} />
         <Reveal delay={0.1} className="mt-8 max-w-md text-lead text-soft">Building businesses, connecting opportunities, and creating impact.</Reveal>
 
@@ -74,7 +74,7 @@ export function Footer() {
 
       <div className="relative z-10 border-t hairline bg-[#04110c]">
         <div className="mx-auto flex max-w-[88rem] flex-col gap-4 px-5 py-6 text-sm text-muted sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-12">
-          <p>© {year} Kalpavriksha Private Limited. All rights reserved.</p>
+          <p>© {year} Kalpavriksha Collective Pvt Ltd. All rights reserved.</p>
           <ul className="flex gap-6">
             <li><Link className="inline-flex min-h-11 items-center hover:text-ivory" href="/privacy">Privacy Policy</Link></li>
             <li><Link className="inline-flex min-h-11 items-center hover:text-ivory" href="/terms">Terms and Conditions</Link></li>

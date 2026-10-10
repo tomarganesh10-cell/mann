@@ -7,7 +7,7 @@
 export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || undefined;
 
 export const company = {
-  name: "Kalpavriksha Private Limited",
+  name: "Kalpavriksha Collective Pvt Ltd",
   shortName: "Kalpavriksha",
   tagline: "Building Businesses. Growing Brands. Creating Impact.",
   headline: "Where Ambition Becomes an Empire.",

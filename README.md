@@ -1,4 +1,4 @@
-# Kalpavriksha Private Limited — Website
+# Kalpavriksha Collective Pvt Ltd — Website
 
 Next.js (App Router) · React 19 · TypeScript (strict) · Tailwind CSS 4 · Motion · Lucide.
 

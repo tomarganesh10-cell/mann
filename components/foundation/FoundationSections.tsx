@@ -171,7 +171,7 @@ export function GetInvolved() {
         </ul>
         <Reveal className="mt-10 max-w-2xl space-y-3 text-sm leading-relaxed text-ink/70">
           <p>This website does not collect donations. For giving or volunteering details, please use the foundation&apos;s official website.</p>
-          <p>Hope Commoners Foundation has its own identity, purpose, and website. Kalpavriksha Private Limited describes it as a nonprofit organization and features it as part of its social-impact focus.</p>
+          <p>Hope Commoners Foundation has its own identity, purpose, and website. Kalpavriksha Collective Pvt Ltd describes it as a nonprofit organization and features it as part of its social-impact focus.</p>
         </Reveal>
       </div>
     </section>

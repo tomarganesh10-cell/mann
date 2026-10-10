@@ -27,7 +27,7 @@ export default function OurBestFranchisesPage() {
       <main id="main">
         <PageHero
           id="best-title"
-          eyebrow="Kalpavriksha Private Limited / Our Best Franchises"
+          eyebrow="Kalpavriksha Collective Pvt Ltd / Our Best Franchises"
           lines={["Three Brands.", <span key="b" className="italic text-lime">Three Distinct Experiences.</span>]}
           body="Explore distinctive concepts across food, entertainment, and quick-service dining."
           crumb={<><Link href="/" className="hover:text-ivory">Home</Link> <span aria-hidden className="mx-2 text-gold">/</span><span aria-current="page" className="text-ivory">Our Best Franchises</span></>}

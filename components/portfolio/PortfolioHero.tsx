@@ -26,7 +26,7 @@ export function PortfolioHero() {
           <span aria-current="page" className="text-ivory">Our Franchise Portfolio</span>
         </motion.nav>
         <motion.p {...appear(0.2)} className="eyebrow mb-8 flex flex-wrap items-center gap-x-4 gap-y-2">
-          <span aria-hidden className="h-px w-10 bg-gold" /> Kalpavriksha Private Limited / Franchise Ecosystem
+          <span aria-hidden className="h-px w-10 bg-gold" /> Kalpavriksha Collective Pvt Ltd / Franchise Ecosystem
         </motion.p>
         <MaskHeading as="h1" id="portfolio-title" immediate delay={0.6} className="text-hero max-w-5xl" lines={["Great Brands.", <span key="b" className="italic text-lime">Bigger Possibilities.</span>]} />
         <motion.p {...appear(1.7)} className="mt-9 max-w-xl text-lead leading-relaxed text-soft">
