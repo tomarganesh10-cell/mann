@@ -71,7 +71,8 @@ export function BestFranchiseCard({ brand }: { brand: BestFranchise }) {
       // Mouse convenience: the whole card opens the brand site. Keyboard and screen-reader users use the CTA link.
       onClick={(e) => {
         if ((e.target as HTMLElement).closest("a")) return;
-        window.open(brand.url, "_blank", "noopener,noreferrer");
+        // Click the real CTA link (rather than window.open) so it behaves like the link everywhere, including sandboxed frames.
+        ref.current?.querySelector<HTMLAnchorElement>("a[target=_blank]")?.click();
       }}
       aria-labelledby={`${brand.id}-title`}
       className={`group relative flex h-full cursor-pointer flex-col overflow-hidden border transition-[transform,box-shadow,border-color] duration-500 hover:-translate-y-1.5 focus-within:-translate-y-1.5 motion-reduce:hover:translate-y-0 motion-reduce:focus-within:translate-y-0 motion-reduce:transition-none ${t.ring} ${t.card}`}
